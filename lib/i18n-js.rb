@@ -49,10 +49,10 @@ module SimplesIdeias
     end
 
     def segments_per_locale(pattern,scopes)
+      scopes = [scopes] unless scopes.is_a?(Array)
       ::I18n.available_locales.each_with_object({}) do |locale,segments|
-        scopes = [scopes] unless scopes.is_a?(Array)
-        scopes = scopes.map { |scope| "#{locale}.#{scope}" }
-        result = scoped_translations(scopes)
+        locale_scopes = scopes.map { |scope| "#{locale}.#{scope}" }
+        result = scoped_translations(locale_scopes)
         unless result.empty?
           segment_name = ::I18n.interpolate(pattern,{:locale => locale})
           segments[segment_name] = result
@@ -156,7 +156,7 @@ module SimplesIdeias
       elsif translations.has_key?(scope.to_sym)
         return {scope.to_sym => scopes.empty? ? translations[scope.to_sym] : filter(translations[scope.to_sym], scopes)}
       end
-      nil
+      {}
     end
 
     # Initialize and return translations
