@@ -126,7 +126,7 @@ module SimplesIdeias
         f << %(var I18n = I18n || {};\n)
         f << %(I18n.translations = I18n.translations || {};\n)
         translations.each do |locale, locale_translations|
-          f << %(I18n.translations.#{locale} = );
+          f << %(I18n.translations["#{locale}"] = );
           f << locale_translations.to_json
           f << %(;)
         end
